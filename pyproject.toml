@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "llmlink"
+version = "0.1.0"
+description = "Links of ResearchChain"
+authors = ["ryamauchi <ryutaro_yamauchi@weblab.t.u-tokyo.ac.jp>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+openai = "^1.35.13"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
