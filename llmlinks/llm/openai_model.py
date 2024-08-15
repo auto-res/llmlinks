@@ -1,13 +1,14 @@
+# %%
+import os
 import openai
 
 
-class ChatGPT:
-
+class OpenAILLM:
     def __init__(self, **kwargs):
         self.kwargs = kwargs
         if 'model' not in kwargs:
-            self.kwargs['model'] = 'gpt-4-turbo'
-        self.client = openai.OpenAI()
+            self.kwargs['model'] = 'gpt-4o-2024-08-06'
+        self.client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     def __call__(self, input_text, as_system=True):
         messages = [
@@ -20,4 +21,8 @@ class ChatGPT:
             messages=messages,
             **self.kwargs)
         output_text = response.choices[0].message.content
-        return output_text     
+        return output_text
+
+if __name__ == "__main__":
+    llm = OpenAILLM()
+    print(llm("Hello, world!"))
