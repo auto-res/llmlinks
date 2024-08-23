@@ -9,7 +9,7 @@ def output_parser_xml(text, output_variables):
     tree = xml.parse(text)
     for var in output_variables:
         for leaf in xml.findall(xml.parse(text), var):
-            output[var].append(xml.deparse([leaf]).strip())
+            output[var].append(xml.deparse(leaf['content']).strip())
     return output
 
 
