@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "llmlinks"
-version = "0.1.4"
+version = "0.1.14"
 description = "Links of ResearchChain"
 authors = ["ryamauchi <ryutaro_yamauchi@weblab.t.u-tokyo.ac.jp>"]
 license = "MIT"
@@ -17,6 +17,7 @@ google-generativeai = "^0.7.2"
 ruff = "^0.5.1"
 ipykernel = "^6.29.5"
 jupyter = "^1.0.0"
+pre-commit = "^3.8.0"
 
 [build-system]
 requires = ["poetry-core"]

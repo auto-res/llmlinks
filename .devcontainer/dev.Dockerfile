@@ -6,9 +6,11 @@ RUN apt-get update && apt-get install -y \
     python3.10 \
     python3-pip \
     git \
-    curl
+    curl \
+    locales
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN locale-gen en_US.UTF-8
 
 # Poetryのインストール
 RUN curl -sSL https://install.python-poetry.org | python3 -
@@ -25,6 +27,8 @@ COPY poetry.lock /app/
 
 # Poetryを使って依存関係をインストール
 RUN poetry install
+
+#RUN poetry run pre-commit install
 
 # Poetryの仮想環境パスをPATHに追加
 ENV PATH="/workspaces/llmlink/.venv/bin:$PATH"
