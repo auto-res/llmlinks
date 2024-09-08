@@ -276,10 +276,15 @@ class CompiledLLMFunction(LLMFunctionBase):
                 values = [values]
 
             prompt = self.prompt_template
+            prompt += '\n'
+            if len(values) > 1:
+                prompt += '\n<LIST>'
             for value in values:
-                prompt += f'\n\n<{tag}>'
+                prompt += f'\n<{tag}>'
                 prompt += f'\n{value}'
-                prompt += f'\n<\\{tag}>'
+                prompt += f'\n</{tag}>'
+            if len(values) > 1:
+                prompt += '\n</LIST>'
         return prompt
 
     def parse(self, text):
