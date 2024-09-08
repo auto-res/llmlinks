@@ -10,8 +10,6 @@ class LLMFunctionBase:
         self.prompt_template = prompt_template
         if docstring is not None:
             self.__doc__ = docstring
-        else:
-            self.__doc__ = prompt_template
 
     def format(self, *args, **kwargs):
         raise NotImplementedError
@@ -34,7 +32,6 @@ class LLMFunction(LLMFunctionBase):
         prompt_template,
         input_variables,
         output_variables,
-        output_parser=None,
         docstring=None
     ):
         super().__init__(llm, prompt_template, docstring=docstring)
@@ -44,7 +41,7 @@ class LLMFunction(LLMFunctionBase):
     def format(self, **kwargs):
         inputs = {var: "None" for var in self.input_variables}
         inputs.update(kwargs)
-        prompt = prompt_template.format(**kwargs)
+        prompt = self.prompt_template.format(**kwargs)
         return prompt
 
     def parse(self, text):
