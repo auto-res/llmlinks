@@ -266,6 +266,8 @@ class CompiledLLMFunction(LLMFunctionBase):
         self.output_tags = params['output_tags']
 
     def format(self, **kwargs):
+        prompt = self.prompt_template
+
         for arg in kwargs:
             if arg not in self.input_tags:
                 continue
@@ -275,7 +277,6 @@ class CompiledLLMFunction(LLMFunctionBase):
             if not isinstance(values, list):
                 values = [values]
 
-            prompt = self.prompt_template
             prompt += '\n'
             if len(values) > 1:
                 prompt += '\n<LIST>'
