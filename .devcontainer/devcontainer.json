@@ -22,7 +22,7 @@
 				"ms-python.python",
 				"charliermarsh.ruff",
 				"github.copilot",
-				
+				"ms-toolsai.jupyter"
 			]
 		}
 	}
