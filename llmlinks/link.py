@@ -1,8 +1,8 @@
 from .parser import xml
 
 
-class LLMFunctionBase:
-    """LLMFunctionの基底クラス
+class LLMLinkBase:
+    """LLMLinkの基底クラス
     """
 
     def __init__(self, llm, prompt_template, *args, docstring=None, **kwargs):
@@ -24,8 +24,8 @@ class LLMFunctionBase:
         return outputs
 
 
-class LLMFunction(LLMFunctionBase):
-    # Todo: SimpleLLMFunction などに改名する（互換性のため現状そのまま）
+class LLMLink(LLMLinkBase):
+    # Todo: SimpleLLMLink などに改名する（互換性のため現状そのまま）
     def __init__(
         self,
         llm,

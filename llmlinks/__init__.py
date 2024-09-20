@@ -1,5 +1,5 @@
 #from . import parser
 #from . import compiler
 #from . import llm
-#from . import function
-#from .function import LLMFunction
+#from . import link
+#from .link import LLMLink

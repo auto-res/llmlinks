@@ -1,7 +1,7 @@
 import tomllib
 import tomli_w
 from .parser import xml
-from .function import LLMFunctionBase
+from .link import LLMLinkBase
 
 
 PROMPT_COMPILER = '''
@@ -204,7 +204,7 @@ The assistant must perform information processing according to the flow describe
 '''.strip()
 
 
-class PromptGenerator(LLMFunctionBase):
+class PromptGenerator(LLMLinkBase):
 
     def __init__(self, llm):
         super().__init__(llm, PROMPT_COMPILER)
@@ -257,7 +257,7 @@ class LLMCompiler:
         return compiled
 
 
-class CompiledLLMFunction(LLMFunctionBase):
+class CompiledLLMLink(LLMLinkBase):
 
     def __init__(self, llm, compiled):
         params = tomllib.loads(compiled)
