@@ -18,6 +18,8 @@ This tag defines rules. The defined content is absolute.
 This tag defines a tag. The defined content is absolute.
 Attributes:
     - name : A tag name.
+Note:
+    - Although tag names are all in uppercase in this text, it is not necessary to do so.
 </TAG>
 
 <TAG name="THINK">
@@ -44,6 +46,11 @@ Two or more types of tags must not exist within the LIST tag.
 This tag describes an example.
 The content described within this tag does not affect anything outside this tag.
 For example, tags defined within the EXAMPLE tag are invalid outside the tag.
+</TAG>
+
+<TAG name="TASK">
+This tag describes the task to be realised by the information processing process.
+The conditions that must be fulfilled in order to realise the task and points to be noted are also described in this tag.
 </TAG>
 
 <TAG name="PROCESS">
@@ -74,13 +81,17 @@ The information processing process consists of input (arguments), output (return
 </TAG>
 
 <RULE role="assistant">
+<TASK>
 The assistant executes the following process for the SOURCE.
+</TASK>
+
 <PROCESS>
 1. The assistant carefully considers the content of the given SOURCE using the THINK tag. The assistant contemplates what steps are necessary to achieve the given process.
 2. The assistant defines tags corresponding to the input (arguments) and output (returns) described in the SOURCE. The tag names are generally set to the same names as the arguments and returns described in the SOURCE, but different names can be used to avoid duplication.
 3. If deemed effective, the assistant may define additional tags to assist in information processing.
 4. The assistant uses INPUT_TAGS and OUTPUT_TAGS to map the defined tags to the arguments and returns in the SOURCE. Ensure accurate mapping.
-5. The assistant describes the flow of information processing using the defined tags within the PROCESS tag.
+5. The assistant describes the task of the information processing using the TASK tag.
+6. The assistant describes the flow of information processing using the defined tags within the PROCESS tag.
 </PROCESS>
 
 Below is an example.
@@ -122,6 +133,18 @@ Attributes:
 This tag describes the number of words. Only numbers can be described within this tag.
 </TAG>
 
+<INPUT_TAGS>
+text=text
+</INPUT_TAGS>
+
+<OUTPUT_TAGS>
+words=word,num_words=num_words
+</OUTPUT_TAGS>
+
+<TASK>
+Split the text into words and count the number of words.
+</TASK>
+
 <PROCESS>
 1. Split the given string by spaces to form words.
 2. Output the processing result as
@@ -133,14 +156,6 @@ This tag describes the number of words. Only numbers can be described within thi
 3. Finally, output the number of words using the NUM_WORDS tag.
 </PROCESS>
 
-<INPUT_TAGS>
-text=text
-</INPUT_TAGS>
-
-<OUTPUT_TAGS>
-words=word,num_words=num_words
-</OUTPUT_TAGS>
-
 </EXAMPLE>
 </RULE>
 
@@ -148,7 +163,7 @@ words=word,num_words=num_words
 {source}
 </SOURCE>
 '''.strip()
-OUTPUT_VARIABLES = ['TAG', 'PROCESS', 'INPUT_TAGS', 'OUTPUT_TAGS']
+OUTPUT_VARIABLES = ['TAG', 'INPUT_TAGS', 'OUTPUT_TAGS', 'TASK', 'PROCESS']
 
 
 PROMPT_BASE = '''
@@ -191,6 +206,11 @@ Two or more types of tags must not exist within the LIST tag.
 This tag describes an example.
 The content described within this tag does not affect anything outside this tag.
 For example, tags defined within the EXAMPLE tag are invalid outside the tag.
+</TAG>
+
+<TAG name="TASK">
+This tag describes the task to be realised by the information processing process.
+The conditions that must be fulfilled in order to realise the task and points to be noted are also described in this tag.
 </TAG>
 
 <TAG name="PROCESS">
@@ -239,6 +259,7 @@ class LLMCompiler:
     
         prompt = PROMPT_BASE
         prompt += '\n\n' + '\n\n'.join(ret['TAG'])
+        prompt += '\n\n' + '\n\n'.join(ret['TASK'])
         prompt += '\n\n' + '\n\n'.join(ret['PROCESS'])
 
         # for arg, tag in input_tags.items():
