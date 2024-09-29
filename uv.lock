@@ -1105,13 +1105,12 @@ wheels = [
 
 [[package]]
 name = "llmlinks"
-version = "0.1.26"
+version = "0.1.27"
 source = { virtual = "." }
 dependencies = [
     { name = "anthropic" },
     { name = "google-generativeai" },
     { name = "openai" },
-    { name = "pre-commit" },
     { name = "tomli" },
     { name = "tomli-w" },
 ]
@@ -1121,6 +1120,7 @@ dev = [
     { name = "bump2version" },
     { name = "ipykernel" },
     { name = "jupyter" },
+    { name = "pre-commit" },
     { name = "ruff" },
 ]
 
@@ -1129,7 +1129,6 @@ requires-dist = [
     { name = "anthropic", specifier = ">=0.34.2" },
     { name = "google-generativeai", specifier = ">=0.8.2" },
     { name = "openai", specifier = ">=1.50.2" },
-    { name = "pre-commit", specifier = ">=3.8.0" },
     { name = "tomli", specifier = ">=2.0.1" },
     { name = "tomli-w", specifier = ">=1.0.0" },
 ]
@@ -1139,6 +1138,7 @@ dev = [
     { name = "bump2version", specifier = ">=1.0.1" },
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "jupyter", specifier = ">=1.1.1" },
+    { name = "pre-commit", specifier = ">=3.8.0" },
     { name = "ruff", specifier = ">=0.6.8" },
 ]
 
