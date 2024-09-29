@@ -20,7 +20,3 @@ dev-dependencies = [
     "jupyter>=1.1.1",
     "ruff>=0.6.8",
 ]
-
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["llmlinks"]
