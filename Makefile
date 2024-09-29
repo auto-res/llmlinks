@@ -7,4 +7,4 @@ build:
 	uv build
 
 publish:
-	uvx twine upload dist/* 
+	uvx twine upload dist/* && rm -rf dist/*

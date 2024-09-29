@@ -1,7 +1,8 @@
-import tomllib
+# %%
+import tomli
 import tomli_w
-from .parser import xml
-from .link import LLMLinkBase
+from parser import xml
+from link import LLMLinkBase
 
 
 PROMPT_COMPILER = '''
@@ -148,10 +149,10 @@ words=word,num_words=num_words
 {source}
 </SOURCE>
 '''.strip()
-OUTPUT_VARIABLES = ['TAG', 'PROCESS', 'INPUT_TAGS', 'OUTPUT_TAGS']
+OUTPUT_VARIABLES = ["TAG", "PROCESS", "INPUT_TAGS", "OUTPUT_TAGS"]
 
 
-PROMPT_BASE = '''
+PROMPT_BASE = """
 <RULE>
 All texts must be formatted in XML format. XML element ::= <tag attribute="value">content</tag>
 Tags determine the meaning and function of the content. The content must not contradict the definition of the tag.
@@ -201,11 +202,10 @@ The assistant must perform information processing according to the content of th
 <RULE role="assistant">
 The assistant must perform information processing according to the flow described in the PROCESS and output the necessary tags and their contents.
 </RULE>
-'''.strip()
+""".strip()
 
 
 class PromptGenerator(LLMLinkBase):
-
     def __init__(self, llm):
         super().__init__(llm, PROMPT_COMPILER)
 
@@ -222,24 +222,25 @@ class PromptGenerator(LLMLinkBase):
 
 
 class LLMCompiler:
-
     def __init__(self, llm):
         self.prompt_generator = PromptGenerator(llm)
 
     def compile(self, source):
         ret = self.prompt_generator(source)
 
-        assert len(ret['INPUT_TAGS']) == 1
-        assert len(ret['OUTPUT_TAGS']) == 1
+        assert len(ret["INPUT_TAGS"]) == 1
+        assert len(ret["OUTPUT_TAGS"]) == 1
 
-        input_tags = xml.parse(ret['INPUT_TAGS'][0])[1]['content'][0].strip().split(',')
-        input_tags = dict(map(lambda x:x.split('='), input_tags))
-        output_tags = xml.parse(ret['OUTPUT_TAGS'][0])[1]['content'][0].strip().split(',')
-        output_tags = dict(map(lambda x:x.split('='), output_tags))
-    
+        input_tags = xml.parse(ret["INPUT_TAGS"][0])[1]["content"][0].strip().split(",")
+        input_tags = dict(map(lambda x: x.split("="), input_tags))
+        output_tags = (
+            xml.parse(ret["OUTPUT_TAGS"][0])[1]["content"][0].strip().split(",")
+        )
+        output_tags = dict(map(lambda x: x.split("="), output_tags))
+
         prompt = PROMPT_BASE
-        prompt += '\n\n' + '\n\n'.join(ret['TAG'])
-        prompt += '\n\n' + '\n\n'.join(ret['PROCESS'])
+        prompt += "\n\n" + "\n\n".join(ret["TAG"])
+        prompt += "\n\n" + "\n\n".join(ret["PROCESS"])
 
         # for arg, tag in input_tags.items():
         #     prompt += f'\n\n<{tag}>'
@@ -247,10 +248,10 @@ class LLMCompiler:
         #     prompt += f'\n<\\{tag}>'
 
         params = {
-            'source': source,
-            'prompt_template': prompt,
-            'input_tags': input_tags,
-            'output_tags': output_tags
+            "source": source,
+            "prompt_template": prompt,
+            "input_tags": input_tags,
+            "output_tags": output_tags,
         }
 
         compiled = tomli_w.dumps(params, multiline_strings=True)
@@ -258,12 +259,11 @@ class LLMCompiler:
 
 
 class CompiledLLMLink(LLMLinkBase):
-
     def __init__(self, llm, compiled):
-        params = tomllib.loads(compiled)
-        super().__init__(llm, params['prompt_template'], docstring=params['source'])
-        self.input_tags = params['input_tags']
-        self.output_tags = params['output_tags']
+        params = tomli.loads(compiled)
+        super().__init__(llm, params["prompt_template"], docstring=params["source"])
+        self.input_tags = params["input_tags"]
+        self.output_tags = params["output_tags"]
 
     def format(self, **kwargs):
         prompt = self.prompt_template
@@ -277,15 +277,15 @@ class CompiledLLMLink(LLMLinkBase):
             if not isinstance(values, list):
                 values = [values]
 
-            prompt += '\n'
+            prompt += "\n"
             if len(values) > 1:
-                prompt += '\n<LIST>'
+                prompt += "\n<LIST>"
             for value in values:
-                prompt += f'\n<{tag}>'
-                prompt += f'\n{value}'
-                prompt += f'\n</{tag}>'
+                prompt += f"\n<{tag}>"
+                prompt += f"\n{value}"
+                prompt += f"\n</{tag}>"
             if len(values) > 1:
-                prompt += '\n</LIST>'
+                prompt += "\n</LIST>"
         return prompt
 
     def parse(self, text):
