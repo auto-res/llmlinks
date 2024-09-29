@@ -1,6 +1,6 @@
 # %%
-from parser import xml
-from llm.openai_model import OpenAILLM
+from .parser import xml
+from llmlinks.llm.openai_model import OpenAILLM
 
 
 class LLMLinkBase:
