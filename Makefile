@@ -1,6 +1,6 @@
 .PHONY: bump_version build publish
 
-bump_version:
+version:
 	uv run bumpversion patch
 
 build:
