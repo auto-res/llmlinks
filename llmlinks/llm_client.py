@@ -1,7 +1,7 @@
 # %%
-from llm.openai_model import OpenAILLM
-from llm.google_model import GoogleLLM
-from llm.anthropic_model import AnthropicLLM
+from .llm.openai_model import OpenAILLM
+from .llm.google_model import GoogleLLM
+from .llm.anthropic_model import AnthropicLLM
 
 
 class LLMClient:
