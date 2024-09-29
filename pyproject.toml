@@ -1,23 +1,19 @@
-[tool.poetry]
-name = "llmlinks"
-version = "0.1.4"
-description = "Links of ResearchChain"
-authors = ["ryamauchi <ryutaro_yamauchi@weblab.t.u-tokyo.ac.jp>"]
-license = "MIT"
+[project]
+name = "llmlink"
+version = "0.1.0"
+description = "Add your description here"
 readme = "README.md"
-packages = [{ include = "llmlinks" }]
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.34.2",
+    "google-generativeai>=0.8.2",
+    "openai>=1.50.2",
+    "pre-commit>=3.8.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-openai = "^1.35.13"
-anthropic = "^0.33.0"
-google-generativeai = "^0.7.2"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.5.1"
-ipykernel = "^6.29.5"
-jupyter = "^1.0.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+dev-dependencies = [
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "ruff>=0.6.8",
+]
