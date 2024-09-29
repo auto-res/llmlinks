@@ -1,5 +1,5 @@
 # %%
-from parser import xml
+from .parser import xml
 from llm.openai_model import OpenAILLM
 
 
