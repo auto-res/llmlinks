@@ -1,9 +1,10 @@
+# %%
 from .parser import xml
+from .llm.openai_model import OpenAILLM
 
 
 class LLMLinkBase:
-    """LLMLinkの基底クラス
-    """
+    """LLMLinkの基底クラス"""
 
     def __init__(self, llm, prompt_template, *args, docstring=None, **kwargs):
         self.llm = llm
@@ -18,7 +19,7 @@ class LLMLinkBase:
         raise NotImplementedError
 
     def __call__(self, *args, **kwargs):
-        prompt = self.format(*args, **kwargs)
+        prompt = self.format(**kwargs)
         ret = self.llm(prompt)
         outputs = self.parse(ret)
         return outputs
@@ -27,12 +28,7 @@ class LLMLinkBase:
 class LLMLink(LLMLinkBase):
     # Todo: SimpleLLMLink などに改名する（互換性のため現状そのまま）
     def __init__(
-        self,
-        llm,
-        prompt_template,
-        input_variables,
-        output_variables,
-        docstring=None
+        self, llm, prompt_template, input_variables, output_variables, docstring=None
     ):
         super().__init__(llm, prompt_template, docstring=docstring)
         self.input_variables = input_variables
@@ -50,3 +46,23 @@ class LLMLink(LLMLinkBase):
             for leaf in xml.findall(xml.parse(text), var):
                 outputs[var].append(xml.deparse(leaf["content"]).strip())
         return outputs
+
+
+if __name__ == "__main__":
+    prompt = """
+    <instruction>
+    Please tell me the country whose capital is surrounded by the <city> tag. Please enclose the output in the <output> tag.
+    </instruction>
+    <city>
+    {city}
+    </city>
+"""
+
+    llm = LLMLink(
+        llm=OpenAILLM(model="gpt-4o-2024-08-06"),
+        prompt_template=prompt,
+        input_variables=["city"],
+        output_variables=["output"],
+    )
+    data = {"city": "Tokyo"}
+    print(llm(**data))

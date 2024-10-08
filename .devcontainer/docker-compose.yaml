@@ -1,7 +1,9 @@
 services:
-  llmlink:
+  llmlinks:
     build:
       context: ../
       dockerfile: ./.devcontainer/dev.Dockerfile
+    env_file:
+      - ../.env
     volumes:
-      - ..:/workspaces/llmlink:cached
+      - ..:/workspaces/llmlinks:cached

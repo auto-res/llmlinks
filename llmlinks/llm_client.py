@@ -6,7 +6,7 @@ from .llm.anthropic_model import AnthropicLLM
 
 class LLMClient:
     """
-    様々な大規模言語モデルと対話するためのクライアントを初期化し、対話します。
+    様々な大規模言語モデルと対話するためのクライアントを初期化
     """
 
     def __init__(self, llm_name):
@@ -14,7 +14,7 @@ class LLMClient:
 
     def initialize_llm(self, llm_name):
         """
-        提供されたモデル名に基づいて大規模言語モデルを初期化します。
+        提供されたモデル名に基づいて大規模言語モデルを初期化
         """
         model_map = {
             "gpt-4o-2024-08-06": OpenAILLM,
