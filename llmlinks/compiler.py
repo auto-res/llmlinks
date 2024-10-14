@@ -1,8 +1,8 @@
 # %%
 import tomli
 import tomli_w
-from parser import xml
-from link import LLMLinkBase
+from .parser import xml
+from .link import LLMLinkBase
 
 
 PROMPT_COMPILER = '''
