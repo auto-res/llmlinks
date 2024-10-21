@@ -19,7 +19,7 @@ class LLMLinkBase:
         raise NotImplementedError
 
     def __call__(self, *args, **kwargs):
-        prompt = self.format(**kwargs)
+        prompt = self.format(*args, **kwargs)
         ret = self.llm(prompt)
         outputs = self.parse(ret)
         return outputs
